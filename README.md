@@ -19,4 +19,12 @@ Bracket Pair Colorizer
 ```
 python3 manage.py  makemigrations 
 python3 manage.py migrate
-```%   
+```
+上线提示 
+```sql
+    class Meta:
+        verbose_name = "10-评价表"
+        db_table = verbose_name  #上线 禁止使用db_table 
+        verbose_name_plural = verbose_name
+
+```
