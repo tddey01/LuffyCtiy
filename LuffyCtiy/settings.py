@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middlewares.MyCors',
 ]
 
 ROOT_URLCONF = 'LuffyCtiy.urls'
@@ -87,7 +88,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'root1234',
+        'PASSWORD': '',
         'NAME': 'luffycity',
     }
 }
@@ -146,5 +147,16 @@ LOGGING = {
             'propagate': True,
             'level': 'DEBUG',
         },
+    }
+}
+
+# Media配置
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+VIDEO_CONFIG = {
+    "POLYV": {
+        "USER_ID": "03b56854c0",
+        "SECRET_KEY": "G128dqgzTp",
     }
 }
