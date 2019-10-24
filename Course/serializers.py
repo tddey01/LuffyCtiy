@@ -79,3 +79,19 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         model = models.CourseDetail
         fields = ["id", "hours", "summary", "level", "study_num", "recommend_courses", "teachers",
                   "price_policy", "course_outline"]
+
+
+class CourseChapterSerializer(serializers.ModelSerializer):
+    sections = serializers.SerializerMethodField()
+
+    def get_sections(self, obj):
+        '''
+
+        :param obj:
+        :return:
+        '''
+        return [{"id": section.id, "title": section.title, "free_trail": section.free_trail} for section in obj.course_sections.all().order_by("section_order")]
+
+    class Meta:
+        model = models.CourseChapter
+        fields = ["id", "title", "sections"]

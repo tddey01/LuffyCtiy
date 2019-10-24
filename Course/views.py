@@ -41,8 +41,6 @@ class CourseView(APIView):
 
         return Response(ser_obj.data)
 
-
-
 class CourseDetailView(APIView):
 
     def get(self,request,pk):
@@ -59,3 +57,17 @@ class CourseDetailView(APIView):
             return  Response({'code':1001,'error':'你查下查询课程详情不存在'})
         ser_obj = serializers.CourseDetailSerializer(course_detail_obj)
         return  Response(ser_obj.data)
+
+class CourseChapterView(APIView):
+    def get(self,request,pk):
+        '''
+         ["第一章": {课时一， 课时二}]
+         序列化章节对象
+         返回
+        :param request:
+        :param pk:
+        :return:
+        '''
+        queryset = models.CourseChapter.objects.filter(course__id=pk).all().order_by("chapter")
+        ser_obj = serializers.CourseChapterSerializer(queryset,many=True)
+        return Response(ser_obj.data)
