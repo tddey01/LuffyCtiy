@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from Login import serializers
 from utils import Base_Response
 from utils import redis_pool
+from utils import My_Auth
 from Course import  models
 import redis
 import  uuid
@@ -49,11 +50,16 @@ class LoginView(APIView):
         try:
             token = uuid.uuid4()
             # conn.set(str(token), user_obj.id, ex=10)
-            conn.set(str(token),user_obj.id)
+            conn.set(str(token),user_obj.id,ex=30)
             res.data = token
         except Exception as e:
             print(e)
             res.code = 1031
             res.error = '创建令牌失败'
         return Response(res.dict)
+
+class TestView(APIView):
+    authentication_classes = [My_Auth.LoginAuth,]
+    def get(self,request):
+        return Response('认证测试')
 

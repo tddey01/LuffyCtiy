@@ -156,9 +156,9 @@ LOGGING = {
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-VIDEO_CONFIG = {
-    "POLYV": {
-        "USER_ID": "03b56854c0",
-        "SECRET_KEY": "G128dqgzTp",
-    }
-}
+# VIDEO_CONFIG = {
+#     "POLYV": {
+#         "USER_ID": "03b56854c0",
+#         "SECRET_KEY": "G128dqgzTp",
+#     }
+# }
