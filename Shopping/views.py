@@ -209,6 +209,7 @@ class ShoppingCarView(APIView):
         # 1 获取前端传来的数据以及user_id
         course_list = request.data.get("course_list", "")
         user_id = request.user.pk
+
         # 2 校验course_id是否合法
         for course_id in course_list:
             key = SHOPPINGCAR_KEY % (user_id, course_id)
@@ -217,6 +218,7 @@ class ShoppingCarView(APIView):
                 res.error = "课程ID不合法"
                 return Response(res.dict)
             # 3， 删除redis数据
+            print(key)
             CONN.delete(key)
         res.data = "删除成功"
         return Response(res.dict)
