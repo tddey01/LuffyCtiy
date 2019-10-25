@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from rest_framework.views import  APIView
-from rest_framework.response import  Response
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from utils import Base_Response
 from utils import My_Auth
-from utils import  redis_pool
+from utils import redis_pool
 from Course import models
 import redis
-import  json
+import json
 
 # Create your views here.
 '''
@@ -136,4 +136,27 @@ class ShoppingCarView(APIView):
         # 5  写入redis
         CONN.hmset(key, course_info)
         res.data = "加入购物车成功"
+        return Response(res.dict)
+
+    def get(self, request):
+        '''
+        # 1, 拼接redis key
+        # 2, 去redis中读取数据
+        # 2.1 匹配所有的keys
+        # 3，构建数据结构展示
+        :param request:
+        :return:
+        '''
+        res = Base_Response.BaseResponse()
+        # 1, 拼接redis key
+        user_id = request.user.pk
+        shopping_car_key = SHOPPINGCAR_KEY % (user_id, "*")
+        # 2, 去redis中读取数据
+        # 2.1 匹配所有的keys
+        # 3，构建数据结构展示
+        all_keys = CONN.scan_iter(shopping_car_key)
+        ret = []
+        for key in all_keys:
+            ret.append(CONN.hgetall(key))
+        res.data = ret
         return Response(res.dict)
