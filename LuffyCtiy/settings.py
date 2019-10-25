@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Course.apps.CourseConfig',
     'Login.apps.LoginConfig',
+    'Shopping.apps.ShoppingConfig',
 
 ]
 

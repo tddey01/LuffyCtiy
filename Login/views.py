@@ -50,7 +50,7 @@ class LoginView(APIView):
         try:
             token = uuid.uuid4()
             # conn.set(str(token), user_obj.id, ex=10)
-            conn.set(str(token),user_obj.id,ex=30)
+            conn.set(str(token),user_obj.id,ex=300)
             res.data = token
         except Exception as e:
             print(e)
