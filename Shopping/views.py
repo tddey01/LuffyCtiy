@@ -160,3 +160,63 @@ class ShoppingCarView(APIView):
             ret.append(CONN.hgetall(key))
         res.data = ret
         return Response(res.dict)
+
+    def put(self, request):
+        '''
+        # 前端 course_id  price_policy_id
+        # 1, 获取前端传过来的数据以及user_id
+        # 2, 校验数据的合法性
+        # 2.1 course_id是否合法
+        # 2,2 price_policy_id是否合法
+        # 3, 更新redis  default_price_policy_id
+        :param request:
+        :return:
+        '''
+        # 前端 course_id  price_policy_id
+        res = Base_Response.BaseResponse()
+        course_id = request.data.get("course_id", "")
+        price_policy_id = request.data.get("price_policy_id", "")
+        user_id = request.user.pk
+        # 1, 获取前端传过来的数据以及user_id
+        # 2.1 course_id是否合法
+        key = SHOPPINGCAR_KEY % (user_id, course_id)
+        if not CONN.exists(key):
+            res.code = 1043
+            res.error = "课程id不合法"
+            return Response(res.dict)
+        # 2,2 price_policy_id是否合法
+        price_policy_dict = json.loads(CONN.hget(key, "price_policy_dict"))
+        if str(price_policy_id) not in price_policy_dict:
+            res.code = 1044
+            res.error = "价格策略不合法"
+            return Response(res.dict)
+        # 3, 更新redis  default_price_policy_id
+        CONN.hset(key, "default_price_policy_id", price_policy_id)
+        res.data = "更新成功"
+        return Response(res.dict)
+
+    def delete(self, request):
+        '''
+        # course_list = [course_id, ]
+        # 1 获取前端传来的数据以及user_id
+        # 2 校验course_id是否合法
+        # 3， 删除redis数据
+        :param request:
+        :return:
+        '''
+        # course_list = [course_id, ]
+        res = Base_Response.BaseResponse()
+        # 1 获取前端传来的数据以及user_id
+        course_list = request.data.get("course_list", "")
+        user_id = request.user.pk
+        # 2 校验course_id是否合法
+        for course_id in course_list:
+            key = SHOPPINGCAR_KEY % (user_id, course_id)
+            if not CONN.exists(key):
+                res.code = 1045
+                res.error = "课程ID不合法"
+                return Response(res.dict)
+            # 3， 删除redis数据
+            CONN.delete(key)
+        res.data = "删除成功"
+        return Response(res.dict)

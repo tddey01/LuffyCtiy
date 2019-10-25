@@ -49,8 +49,8 @@ class LoginView(APIView):
         conn = redis.Redis(connection_pool=redis_pool.POOL)
         try:
             token = uuid.uuid4()
-            # conn.set(str(token), user_obj.id, ex=10)
-            conn.set(str(token),user_obj.id,ex=300)
+            # conn.set(str(token), user_obj.id, ex=10) ex= token超时时间
+            conn.set(str(token),user_obj.id)
             res.data = token
         except Exception as e:
             print(e)
