@@ -71,3 +71,30 @@ class CourseChapterView(APIView):
         queryset = models.CourseChapter.objects.filter(course__id=pk).all().order_by("chapter")
         ser_obj = serializers.CourseChapterSerializer(queryset,many=True)
         return Response(ser_obj.data)
+
+class CourseCommentView(APIView):
+    def get(self,request,pk):
+        '''
+        通过课程id找到课程所有的评论
+        序列化
+        返回值
+        :param request:
+        :return:
+        '''
+        queryset = models.Course.objects.filter(id=pk).first().course_comments.all()
+        ser_obj = serializers.CourseCommentSerializer(queryset,many=True)
+        return  Response(ser_obj.data)
+
+
+
+class QuestionView(APIView):
+    def get(self, request, pk):
+        '''
+
+        :param request:
+        :param pk:
+        :return:
+        '''
+        queryset = models.Course.objects.filter(id=pk).first().often_ask_questions.all()
+        ser_obj = serializers.QuestionSerializer(queryset,many=True)
+        return Response(ser_obj.data)

@@ -95,3 +95,16 @@ class CourseChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseChapter
         fields = ["id", "title", "sections"]
+
+class CourseCommentSerializer(serializers.ModelSerializer):
+    account = serializers.CharField(source="account.username")
+
+    class Meta:
+        model = models.Comment
+        fields = ["id","account","content","date"]
+
+class QuestionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.OftenAskedQuestion
+        fields = ["id", "question", "answer"]
