@@ -245,8 +245,8 @@ class Account(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=32, verbose_name="用户姓名")
     pwd = models.CharField(max_length=32, verbose_name="密文密码")
-    # head_img = models.CharField(max_length=256, default='/static/frontend/head_portrait/logo@2x.png',
-    #                             verbose_name="个人头像")
+    head_img = models.CharField(max_length=256, default='/static/frontend/head_portrait/logo@2x.png',
+                                verbose_name="个人头像")
     balance = models.IntegerField(verbose_name="贝里余额", default=0)
 
     def __str__(self):
