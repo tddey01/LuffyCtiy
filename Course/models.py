@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 
+
 # Create your models here.
 __all__ = ["Category", "Course", "CourseDetail", "Teacher", "DegreeCourse", "CourseChapter",
            "CourseSection", "PricePolicy", "OftenAskedQuestion", "Comment", "Account", "CourseOutline"]
@@ -48,9 +49,9 @@ class Course(models.Model):
 
     order = models.IntegerField("课程顺序", help_text="从上一个课程数字往后排")
     study_num = models.IntegerField(verbose_name="学习人数", help_text="只要有人买课程，订单表加入数据的同时给这个字段+1")
-
-    order_details = GenericRelation("OrderDetail", related_query_name="course")
-    coupon = GenericRelation("Coupon")
+    #
+    # order_details = GenericRelation("OrderDetail", related_query_name="course")
+    # coupon = GenericRelation("Coupon")
     # 只用于反向查询不生成字段
     price_policy = GenericRelation("PricePolicy")
     often_ask_questions = GenericRelation("OftenAskedQuestion")
